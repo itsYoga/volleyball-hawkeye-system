@@ -126,7 +126,7 @@ class VolleyballHawkeye:
             'net_post_1': np.array([0, -self.court_width/2, self.net_height]),    # Left post
             'net_post_2': np.array([0, self.court_width/2, self.net_height]),     # Right post
             
-            # Net antennas (80cm above net)
+            # Net antennas (80cm above net, positioned on the sides of the net)
             'antenna_1': np.array([0, -self.court_width/2, self.net_height + self.antenna_height]),  # Left antenna
             'antenna_2': np.array([0, self.court_width/2, self.net_height + self.antenna_height]),   # Right antenna
             
@@ -824,12 +824,19 @@ class VolleyballHawkeye:
         
         ax.plot(net_x, net_y, net_z, 'r-', linewidth=3, label='Net')
         
-        # Net antennas (80cm above net)
-        antenna_x = [0, 0]
-        antenna_y = [-self.court_width/2, self.court_width/2]
-        antenna_z = [self.net_height + self.antenna_height, self.net_height + self.antenna_height]
+        # Net antennas (80cm above net, positioned on the sides of the net)
+        # Left antenna (vertical line from net to antenna height)
+        antenna_left_x = [0, 0]
+        antenna_left_y = [-self.court_width/2, -self.court_width/2]
+        antenna_left_z = [self.net_height, self.net_height + self.antenna_height]
         
-        ax.plot(antenna_x, antenna_y, antenna_z, 'r-', linewidth=2, label='Antennas')
+        # Right antenna (vertical line from net to antenna height)
+        antenna_right_x = [0, 0]
+        antenna_right_y = [self.court_width/2, self.court_width/2]
+        antenna_right_z = [self.net_height, self.net_height + self.antenna_height]
+        
+        ax.plot(antenna_left_x, antenna_left_y, antenna_left_z, 'r-', linewidth=2, label='Antennas')
+        ax.plot(antenna_right_x, antenna_right_y, antenna_right_z, 'r-', linewidth=2)
         
         # Attack lines (3m from center line)
         attack_line_x1 = [-self.attack_line_distance, -self.attack_line_distance]
@@ -861,6 +868,21 @@ class VolleyballHawkeye:
         
         ax.plot(service_zone_x1, service_zone_y1, service_zone_z1, 'y-', linewidth=1, label='Service Zones')
         ax.plot(service_zone_x2, service_zone_y2, service_zone_z2, 'y-', linewidth=1)
+        
+        # Set proper 3D scaling for better visualization
+        # Calculate the range for each axis
+        x_range = self.court_length/2 + self.free_zone_endline
+        y_range = self.court_width/2 + self.free_zone_sideline
+        z_range = self.free_playing_space
+        
+        # Set equal aspect ratio for all axes
+        max_range = max(x_range, y_range, z_range)
+        ax.set_xlim(-max_range, max_range)
+        ax.set_ylim(-max_range, max_range)
+        ax.set_zlim(0, max_range)
+        
+        # Set equal aspect ratio
+        ax.set_box_aspect([1, 1, 1])
     
     def save_results(self, output_path: str) -> None:
         """

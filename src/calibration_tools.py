@@ -39,7 +39,7 @@ class VolleyballCalibrationTools:
             'net_post_1': np.array([0, -4.5, 2.43]),    # Left post
             'net_post_2': np.array([0, 4.5, 2.43]),     # Right post
             
-            # Net antennas (80cm above net)
+            # Net antennas (80cm above net, positioned on the sides of the net)
             'antenna_1': np.array([0, -4.5, 3.23]),     # Left antenna
             'antenna_2': np.array([0, 4.5, 3.23]),      # Right antenna
             
@@ -305,8 +305,8 @@ class VolleyballCalibrationTools:
             'corner_4': (center_x - court_width_px//2, center_y + court_height_px//2),
             'net_post_1': (center_x, center_y - court_height_px//2),
             'net_post_2': (center_x, center_y + court_height_px//2),
-            'antenna_1': (center_x, center_y - court_height_px//2 + 80),
-            'antenna_2': (center_x, center_y + court_height_px//2 + 80),
+            'antenna_1': (center_x, center_y - court_height_px//2),  # Left antenna (same Y as net post)
+            'antenna_2': (center_x, center_y + court_height_px//2),  # Right antenna (same Y as net post)
             'attack_line_1': (center_x - int(court_width_px * 0.17), center_y - court_height_px//2),
             'attack_line_2': (center_x - int(court_width_px * 0.17), center_y + court_height_px//2),
             'attack_line_3': (center_x + int(court_width_px * 0.17), center_y - court_height_px//2),
