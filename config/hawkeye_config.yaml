@@ -1,0 +1,318 @@
+# Volleyball Hawkeye System Configuration
+
+# Camera Configuration
+cameras:
+  # Number of cameras for 3D reconstruction
+  num_cameras: 4
+  
+  # Camera resolution
+  width: 1920
+  height: 1080
+  
+  # Frame rate
+  fps: 30
+  
+  # Camera IDs (for real-time mode)
+  device_ids: [0, 1, 2, 3]
+
+# Ball Detection Configuration
+ball_detection:
+  # YOLO model configuration
+  model_path: "yolov8n.pt"
+  confidence_threshold: 0.5
+  nms_threshold: 0.4
+  
+  # Ball color ranges (HSV)
+  ball_colors:
+    blue:
+      lower: [100, 150, 100]
+      upper: [130, 255, 255]
+    white:
+      lower: [0, 0, 200]
+      upper: [180, 30, 255]
+    yellow:
+      lower: [20, 100, 100]
+      upper: [30, 255, 255]
+  
+  # Ball tracking parameters
+  max_track_length: 30
+  min_track_length: 5
+  track_smoothing: true
+
+# Court Configuration
+court:
+  # Volleyball court dimensions (FIVB standards)
+  length: 18.0  # meters (playing court length)
+  width: 9.0    # meters (playing court width)
+  net_height: 2.43  # meters (men's height)
+  
+  # Free zone dimensions (FIVB standards)
+  free_zone_sideline: 5.0    # meters (FIVB World and Official competitions)
+  free_zone_endline: 6.5     # meters (FIVB World and Official competitions)
+  free_playing_space: 12.5   # meters (FIVB World and Official competitions)
+  
+  # Court line dimensions
+  line_width: 0.05    # meters (5 cm line width)
+  attack_line_distance: 3.0  # meters (attack line from center line)
+  
+  # Net dimensions
+  net_width: 1.0      # meters (net width)
+  net_length: 9.5     # meters (net length)
+  antenna_height: 0.8 # meters (antenna extends 80cm above net)
+  
+  # Service zone dimensions
+  service_zone_width: 9.0  # meters (service zone width)
+  
+  # Substitution zone
+  substitution_zone_width: 3.0  # meters (between attack line extensions)
+  
+  # Ball properties
+  ball_radius: 0.105
+  ball_mass: 0.27
+  
+  # Reference points for calibration (updated to FIVB standards)
+  reference_points:
+    # Playing court corners (18m x 9m)
+    - name: "corner_1"
+      position: [-9.0, -4.5, 0.0]
+      description: "Back left corner"
+    - name: "corner_2"
+      position: [9.0, -4.5, 0.0]
+      description: "Back right corner"
+    - name: "corner_3"
+      position: [9.0, 4.5, 0.0]
+      description: "Front right corner"
+    - name: "corner_4"
+      position: [-9.0, 4.5, 0.0]
+      description: "Front left corner"
+    
+    # Net posts (at center line)
+    - name: "net_post_1"
+      position: [0.0, -4.5, 2.43]
+      description: "Left net post"
+    - name: "net_post_2"
+      position: [0.0, 4.5, 2.43]
+      description: "Right net post"
+    
+    # Net antennas (80cm above net)
+    - name: "antenna_1"
+      position: [0.0, -4.5, 3.23]
+      description: "Left antenna"
+    - name: "antenna_2"
+      position: [0.0, 4.5, 3.23]
+      description: "Right antenna"
+    
+    # Attack lines (3m from center line)
+    - name: "attack_line_1"
+      position: [-3.0, -4.5, 0.0]
+      description: "Left attack line"
+    - name: "attack_line_2"
+      position: [-3.0, 4.5, 0.0]
+      description: "Right attack line"
+    - name: "attack_line_3"
+      position: [3.0, -4.5, 0.0]
+      description: "Left attack line"
+    - name: "attack_line_4"
+      position: [3.0, 4.5, 0.0]
+      description: "Right attack line"
+    
+    # Center line points
+    - name: "center_line_1"
+      position: [0.0, -4.5, 0.0]
+      description: "Left center line"
+    - name: "center_line_2"
+      position: [0.0, 4.5, 0.0]
+      description: "Right center line"
+    
+    # Service zones (9m wide behind end lines)
+    - name: "service_zone_1"
+      position: [-9.0, -4.5, 0.0]
+      description: "Left service zone"
+    - name: "service_zone_2"
+      position: [-9.0, 4.5, 0.0]
+      description: "Right service zone"
+    - name: "service_zone_3"
+      position: [9.0, -4.5, 0.0]
+      description: "Left service zone"
+    - name: "service_zone_4"
+      position: [9.0, 4.5, 0.0]
+      description: "Right service zone"
+    
+    # Front zone boundaries (between center line and attack lines)
+    - name: "front_zone_1"
+      position: [-1.5, -4.5, 0.0]
+      description: "Left front zone"
+    - name: "front_zone_2"
+      position: [-1.5, 4.5, 0.0]
+      description: "Right front zone"
+    - name: "front_zone_3"
+      position: [1.5, -4.5, 0.0]
+      description: "Left front zone"
+    - name: "front_zone_4"
+      position: [1.5, 4.5, 0.0]
+      description: "Right front zone"
+    
+    # Back zone boundaries (between attack lines and end lines)
+    - name: "back_zone_1"
+      position: [-7.5, -4.5, 0.0]
+      description: "Left back zone"
+    - name: "back_zone_2"
+      position: [-7.5, 4.5, 0.0]
+      description: "Right back zone"
+    - name: "back_zone_3"
+      position: [7.5, -4.5, 0.0]
+      description: "Left back zone"
+    - name: "back_zone_4"
+      position: [7.5, 4.5, 0.0]
+      description: "Right back zone"
+    
+    # Substitution zone (between attack line extensions)
+    - name: "substitution_zone_1"
+      position: [-3.0, -1.5, 0.0]
+      description: "Left substitution zone"
+    - name: "substitution_zone_2"
+      position: [-3.0, 1.5, 0.0]
+      description: "Right substitution zone"
+    - name: "substitution_zone_3"
+      position: [3.0, -1.5, 0.0]
+      description: "Left substitution zone"
+    - name: "substitution_zone_4"
+      position: [3.0, 1.5, 0.0]
+      description: "Right substitution zone"
+    
+    # Free zone boundaries (FIVB standards)
+    - name: "free_zone_sideline_1"
+      position: [-14.0, -4.5, 0.0]
+      description: "Left sideline free zone"
+    - name: "free_zone_sideline_2"
+      position: [14.0, -4.5, 0.0]
+      description: "Right sideline free zone"
+    - name: "free_zone_sideline_3"
+      position: [-14.0, 4.5, 0.0]
+      description: "Left sideline free zone"
+    - name: "free_zone_sideline_4"
+      position: [14.0, 4.5, 0.0]
+      description: "Right sideline free zone"
+    - name: "free_zone_endline_1"
+      position: [-9.0, -11.0, 0.0]
+      description: "Back endline free zone"
+    - name: "free_zone_endline_2"
+      position: [9.0, -11.0, 0.0]
+      description: "Back endline free zone"
+    - name: "free_zone_endline_3"
+      position: [-9.0, 11.0, 0.0]
+      description: "Front endline free zone"
+    - name: "free_zone_endline_4"
+      position: [9.0, 11.0, 0.0]
+      description: "Front endline free zone"
+    
+    # Additional reference points for better calibration
+    - name: "mid_court_1"
+      position: [-4.5, 0.0, 0.0]
+      description: "Mid court left"
+    - name: "mid_court_2"
+      position: [4.5, 0.0, 0.0]
+      description: "Mid court right"
+    - name: "mid_width_1"
+      position: [0.0, -2.25, 0.0]
+      description: "Mid width back"
+    - name: "mid_width_2"
+      position: [0.0, 2.25, 0.0]
+      description: "Mid width front"
+    
+    # Height reference points (for free playing space)
+    - name: "height_ref_1"
+      position: [0.0, 0.0, 1.0]
+      description: "1m height reference"
+    - name: "height_ref_2"
+      position: [0.0, 0.0, 2.0]
+      description: "2m height reference"
+    - name: "height_ref_3"
+      position: [0.0, 0.0, 3.0]
+      description: "3m height reference"
+    - name: "height_ref_4"
+      position: [0.0, 0.0, 5.0]
+      description: "5m height reference"
+    - name: "height_ref_5"
+      position: [0.0, 0.0, 7.0]
+      description: "7m height reference (minimum free playing space)"
+    - name: "height_ref_6"
+      position: [0.0, 0.0, 12.5]
+      description: "12.5m height reference (FIVB free playing space)"
+
+# 3D Reconstruction Configuration
+reconstruction:
+  # Triangulation parameters
+  min_cameras: 2
+  max_reprojection_error: 10.0
+  
+  # Outlier filtering
+  outlier_threshold: 2.0
+  min_trajectory_points: 10
+  
+  # Trajectory smoothing
+  smoothing_window: 5
+  polynomial_degree: 3
+
+# Analysis Configuration
+analysis:
+  # Speed calculation
+  fps: 30
+  
+  # Trajectory classification thresholds
+  spike_height_threshold: 3.0
+  set_height_threshold: 2.5
+  serve_distance_threshold: 10.0
+  
+  # Bounce detection
+  ground_threshold: 0.1
+  bounce_velocity_threshold: 0.5
+  
+  # In/out bounds checking
+  bounds_margin: 0.1
+
+# Output Configuration
+output:
+  # Output directory
+  base_dir: "output"
+  
+  # File formats
+  trajectory_format: "json"
+  visualization_format: "png"
+  report_format: "txt"
+  
+  # Save options
+  save_trajectory: true
+  save_visualization: true
+  save_analysis: true
+  save_calibration: true
+  
+  # Visualization options
+  plot_3d: true
+  plot_2d_projections: true
+  show_court_boundaries: true
+  show_trajectory_points: true
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "hawkeye.log"
+  console: true
+
+# Performance Configuration
+performance:
+  # GPU acceleration
+  use_gpu: true
+  gpu_id: 0
+  
+  # Processing options
+  batch_size: 1
+  num_workers: 4
+  
+  # Memory management
+  max_memory_usage: 0.8
+  
+  # Real-time options
+  realtime_fps: 30
+  skip_frames: 0 
